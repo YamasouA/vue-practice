@@ -4,9 +4,9 @@
         <meta charset="utf-u">
         <title>Vue.js App</title>
         <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="calender.css">
     </head>
     <body>
-        <fhwoeghoawlv></fhwoeghoawlv>
         <div id="app">
             <h1>インターン管理表</h1>
 
@@ -24,6 +24,7 @@
                         <th class="id">ID</th>
                         <th class="comment">企業名</th>
                         <th class="state">状態</th>
+                        <th class="date">書類期間</th>
                         <th class="button">-</th>
                     </tr>
                 </thead>
@@ -39,6 +40,9 @@
                             <button v-on:click="doChangeState(item)">
                                 {{ labels[item.state] }}
                             </button>
+                        </td>
+                        <td class="date">
+                            <input type="date" name="start" v-model="item.start"> ~ <input type="date" name="end" v-model="item.end">
                         </td>
                         <td class="button">
                             <button v-on:click="doRemove(item)">
@@ -56,13 +60,20 @@
                     </div>
                 </div>
         </div>
-            <h2>新しい作業の追加</h2>
+            <h2>企業の追加</h2>
             <form class="add-form" v-on:submit.prevent="doAdd">
-                コメント <input type="text" ref="comment">
+                企業 <input type="text" ref="comment">
                 <button type="submit">追加</button>
             </form>
         </div>
+        <div class="schedule">
+            <button id="prev" type="button">前の月</button>
+            <button id="next" type="button">次の月</button>
+            <div id="calendar"></div>
+        </div>
+        
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+        <script src="./calender.js"></script>
         <script src="./main.js"></script>
     </body>
 </html>
