@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="main.css">
     </head>
     <body>
+        <fhwoeghoawlv></fhwoeghoawlv>
         <div id="app">
             <h1>インターン管理表</h1>
 
@@ -13,7 +14,7 @@
                 <input type="radio"
                  v-model="current"
                  v-bind:value="label.value">
-                {{ label.label}}
+                {{ label.label }}
             </label>
             ({{ computedTodos.length }}　件を表示)
 
@@ -31,20 +32,12 @@
                         v-for="item in computedTodos"
                         v-bind:key="item.id"
                         v-bind:class="{done:item.state}">
-                        <th>{{ item.id }}</th>
-                        <td>{{ item.comment }}               
-                            <div id="modal">
-                            <button v-on:click="openModal()">Click</button>
-                                <div id="overlay" v-show="showContent" v-on:click="closeModal()">
-                                    <div id="content">
-                                        <p>これがモーダルウィンドウ</p>
-                                        <p><button v-on:click="closeModal()">close</button></p>
-                                    </div>
-                                </div>
-                        </div></td>
+                        <th >{{ item.id }}</th>
+                        <td @click="openModal(item)">{{ item.comment }}               
+                            </td>
                         <td class="state">
                             <button v-on:click="doChangeState(item)">
-                                {{ labels[item.state]}}
+                                {{ labels[item.state] }}
                             </button>
                         </td>
                         <td class="button">
@@ -55,6 +48,14 @@
                     </tr>
                 </tbody>
             </table>
+            <div id="modal">
+                <div id="overlay" v-show="showContent">
+                    <div id="content">
+                        <textarea name="" id="" cols="30" rows="10" v-model="memos[index]">{{ memos[index] }}</textarea>
+                        <p><button v-on:click="closeModal()">close</button></p>
+                    </div>
+                </div>
+        </div>
             <h2>新しい作業の追加</h2>
             <form class="add-form" v-on:submit.prevent="doAdd">
                 コメント <input type="text" ref="comment">

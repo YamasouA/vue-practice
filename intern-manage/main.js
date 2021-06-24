@@ -20,11 +20,19 @@ new Vue({
         showContent: false,
         // 状態を表示に利用
         cnt: 0,
-        //
+
+        // modalでメモを表示する用（クリックイベントで代入)
+        index: 0,
+
+        // 
         isModalActive: false,
 
         // localStorageから取得したToDoのリスト
         todos: [],
+
+        // modalのメモをそれぞれで保持する
+        memos: [],
+
         // 抽出しているToDoの状態
         current: -1,
         // 各状態のラベル
@@ -92,6 +100,10 @@ new Vue({
                 comment: comment.value,
                 state: 0
             })
+            // 空白のメモを作成
+            this.memos.push([])
+            console.log(this.memos)
+
             comment.value = ''
         },
         // 状態変更の処理
@@ -103,16 +115,24 @@ new Vue({
         // 削除の処理
         doRemove: function (item) {
             var index = this.todos.indexOf(item)
+            console.log(index)
             this.todos.splice(index, 1)
+            this.memos.splice(index, 1)
+            console.log(this.memos)
         },
 
 
         
-        openModal: function() {
-            this.showContent = true
+        openModal: function(item) {
+            console.log(this.showContent)
+            this.showContent = !this.showContent
+            this.index = this.todos.indexOf(item)
+            console.log(this.index)
+            console.log(this.showContent)
         },
         closeModal: function() {
-            this.showContent = false
+            this.showContent = !this.showContent
+            this.index = 0
         }
     }
 })
