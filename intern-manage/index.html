@@ -42,7 +42,7 @@
                             </button>
                         </td>
                         <td class="date">
-                            <input type="date" name="start" v-model="item.start"> ~ <input type="date" name="end" v-model="item.end">
+                            <input type="date" name="start" v-model="item.start" id="startday"> ~ <input type="date" name="end" v-model="item.end" id="endday">
                         </td>
                         <td class="button">
                             <button v-on:click="doRemove(item)">
@@ -62,18 +62,25 @@
         </div>
             <h2>企業の追加</h2>
             <form class="add-form" v-on:submit.prevent="doAdd">
-                企業 <input type="text" ref="comment">
+                 <input type="text" ref="comment">
                 <button type="submit">追加</button>
             </form>
         </div>
-        <div class="schedule">
+        <!--
+            <div class="schedule">
             <button id="prev" type="button">前の月</button>
             <button id="next" type="button">次の月</button>
             <div id="calendar"></div>
         </div>
+        -->
         
+        <div id="calendar">
+            <calendar></calendar>
+        </div>
+        
+
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-        <script src="./calender.js"></script>
+        <!--<script src="./calender.js"></script>-->
         <script src="./main.js"></script>
     </body>
 </html>

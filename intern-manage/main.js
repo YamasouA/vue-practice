@@ -98,6 +98,8 @@ new Vue({
             this.todos.push({
                 id: todoStorage.uid++,
                 comment: comment.value,
+                start: "",
+                end: "",
                 state: 0
             })
             // 空白のメモを作成
@@ -137,3 +139,68 @@ new Vue({
     }
 })
 
+let calendarHtml = ''
+let weeks = ['日', '月', '火', '水', '木', '金', '土']
+let date = new Date()
+let year = date.getFullYear()
+let month = date.getMonth() + 1
+var makeCalendar = {
+    showCalendar: function(year, date) {
+        this.calendarHtml = this.createCalendar(year, month)
+        sec = document.createElement('section')
+        sec.innerHTML = this.calendarHtml
+        document.querySelector('#calendar').appendChild(sec)
+        month++
+        if (month > 12) {
+            year++
+            month = 1
+        }
+        return sec
+    },
+
+    createCalendar: function(year, month) {
+        startDate = new Date(year, month-1, 1)
+        endDate = new Date(year, month, 0)
+        endDayCount = endDate.getDate()
+        lastMonthEndDate = new Date(year, month-1, 0)
+        lastMonthendDayCount = lastMonthEndDate.getDate()
+        startDay = startDate.getDay()
+        dayCount = 1
+        event_start = document.getElementById('startday')
+        event_end = document.getElementById('endday')
+
+        calendarHtml = '<h1>' + year + '/' + month + '</h1>'
+        calendarHtml += '<table>'
+
+        for (i=0; i<weeks.length; i++) {
+            calendarHtml += '<td id="yobi">' + weeks[i] + '</td>'
+        }
+
+        for (w=0; w<5; w++) {
+            calendarHtml += '<tr>'
+
+            for(d=0; d<7; d++) {
+                if(w==0 && d<startDay) {
+                    num = lastMonthendDayCount - startDay + d + 1
+                    calendarHtml += '<td class="is-disabled">' + num + '</td>'
+                } else if(dayCount > endDayCount) {
+                    num = dayCount - endDayCount
+                    calendarHtml += '<td class="is-disabled">' + num + '</td>'
+                    dayCount++
+                } else {
+                    calendarHtml += '<td>' + dayCount + '</td>'
+                    dayCount++
+                }
+            }
+            calendarHtml += '</tr>'
+        }
+        calendarHtml += '</table>'
+        return calendarHtml
+    },
+};
+
+
+
+Vue.component('calendar', {
+    template: makeCalendar.showCalendar(year, date)
+})
