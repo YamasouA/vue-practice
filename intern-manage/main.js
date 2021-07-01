@@ -123,7 +123,9 @@ new Vue({
             console.log(this.memos)
         },
 
-
+        addCalendar: function(item) {
+            calendarHtml = makeCalendar.addEvent(item)
+        },
         
         openModal: function(item) {
             console.log(this.showContent)
@@ -139,13 +141,13 @@ new Vue({
     }
 })
 
-let calendarHtml = ''
+
 let weeks = ['日', '月', '火', '水', '木', '金', '土']
 let date = new Date()
 let year = date.getFullYear()
 let month = date.getMonth() + 1
 var makeCalendar = {
-    showCalendar: function(year, date) {
+    showCalendar: function(year, month) {
         this.calendarHtml = this.createCalendar(year, month)
         sec = document.createElement('section')
         sec.innerHTML = this.calendarHtml
@@ -155,6 +157,7 @@ var makeCalendar = {
             year++
             month = 1
         }
+        console.log(document)
         return sec
     },
 
@@ -166,9 +169,10 @@ var makeCalendar = {
         lastMonthendDayCount = lastMonthEndDate.getDate()
         startDay = startDate.getDay()
         dayCount = 1
-        event_start = document.getElementById('startday')
-        event_end = document.getElementById('endday')
-
+        eventStart = document.getElementById('startday').value
+        eventEnd = document.getElementById('endday').value
+        console.log(eventStart)
+        console.log(eventEnd)
         calendarHtml = '<h1>' + year + '/' + month + '</h1>'
         calendarHtml += '<table>'
 
@@ -197,10 +201,34 @@ var makeCalendar = {
         calendarHtml += '</table>'
         return calendarHtml
     },
+
+    addEvent: function(item) {
+        return 0;
+    }
 };
 
 
 
-Vue.component('calendar', {
-    template: makeCalendar.showCalendar(year, date)
+
+calendarComp= makeCalendar.showCalendar(year, month),
+calendar = new Vue({
+    el: '#calendar',
+
+    methods: {
+        prev: function(){
+            month--
+            console.log(month)
+            console.log(document.querySelector('#calendar').lastChild)
+            document.querySelector('#calendar').removeChild(document.querySelector('#calendar').lastChild)
+            calendarComp = makeCalendar.showCalendar(year, month)
+            
+        },
+        next: function() {
+            month++
+            console.log(month)
+            document.querySelector('#calendar').removeChild(document.querySelector('#calendar').lastChild)
+            calendarComp = makeCalendar.showCalendar(year, month)
+        }
+    },
+
 })

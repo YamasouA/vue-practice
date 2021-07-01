@@ -42,7 +42,8 @@
                             </button>
                         </td>
                         <td class="date">
-                            <input type="date" name="start" v-model="item.start" id="startday"> ~ <input type="date" name="end" v-model="item.end" id="endday">
+                            <input type="date" name="start" id="startday"> ~ <input type="date" name="end" id="endday">
+                            <p><button　v-on:click="addCalendar(item)">登録</button></p>
                         </td>
                         <td class="button">
                             <button v-on:click="doRemove(item)">
@@ -75,7 +76,10 @@
         -->
         
         <div id="calendar">
-            <calendar></calendar>
+            <p>
+                <button v-on:click="prev()">前の月</button>
+                <button v-on:click="next()">次の月</button>
+            </p> 
         </div>
         
 
