@@ -13,6 +13,8 @@ var todoStorage = {
     }
 }
 
+
+schedule = []
 new Vue({
     el: '#app',
 
@@ -23,6 +25,10 @@ new Vue({
 
         // modalでメモを表示する用（クリックイベントで代入)
         index: 0,
+
+        start: '',
+        end: '',
+
 
         // 
         isModalActive: false,
@@ -123,8 +129,12 @@ new Vue({
             console.log(this.memos)
         },
 
-        addCalendar: function(item) {
-            calendarHtml = makeCalendar.addEvent(item)
+        //addCalendar: function() {
+        //    schedule.append([this.start, this.end])
+        //},
+        wow: function(corName) {
+            schedule.push([this.start, this.end, corName])
+            console.log(schedule)
         },
         
         openModal: function(item) {
@@ -146,6 +156,7 @@ let weeks = ['日', '月', '火', '水', '木', '金', '土']
 let date = new Date()
 let year = date.getFullYear()
 let month = date.getMonth() + 1
+checkString = ""
 var makeCalendar = {
     showCalendar: function(year, month) {
         this.calendarHtml = this.createCalendar(year, month)
@@ -169,10 +180,10 @@ var makeCalendar = {
         lastMonthendDayCount = lastMonthEndDate.getDate()
         startDay = startDate.getDay()
         dayCount = 1
-        eventStart = document.getElementById('startday').value
-        eventEnd = document.getElementById('endday').value
-        console.log(eventStart)
-        console.log(eventEnd)
+        //eventStart = document.getElementById('startday').value
+        //eventEnd = document.getElementById('endday').value
+        //console.log(eventStart)
+        //console.log(eventEnd)
         calendarHtml = '<h1>' + year + '/' + month + '</h1>'
         calendarHtml += '<table>'
 
@@ -181,20 +192,63 @@ var makeCalendar = {
         }
 
         for (w=0; w<5; w++) {
+            
             calendarHtml += '<tr>'
-
             for(d=0; d<7; d++) {
+                checkString = String(year) + '-' 
                 if(w==0 && d<startDay) {
+                    if (month-1 < 10) {
+                        checkString += '0'
+                    } 
+                    checkString += String(month-1) + '-'
                     num = lastMonthendDayCount - startDay + d + 1
+                    if(num < 10) {
+                        checkString += '0'
+                    }
+                    checkString += String(num)
                     calendarHtml += '<td class="is-disabled">' + num + '</td>'
+                    for(i=0; i<schedule.length; i++) {
+                        if (schedule[i][0] === checkString) {
+                            calendarHtml += '<td>' + schedule[i][2] + '</td>'
+                        }
+                    }
                 } else if(dayCount > endDayCount) {
+                    if (month < 10) {
+                        checkString += '0'
+                    }
+                    checkString += String(month) + '-'
                     num = dayCount - endDayCount
+                    if (num < 10){
+                        checkString += '0'
+                    }
+                    checkString += String(num)
                     calendarHtml += '<td class="is-disabled">' + num + '</td>'
+                    for(i=0; i<schedule.length; i++) {
+                        if (schedule[i][0] === checkString) {
+                            console.log("Jaaaaaa")
+                            calendarHtml += '<td>' + schedule[i][2] + '</td>'
+                        }
+                    }
                     dayCount++
                 } else {
-                    calendarHtml += '<td>' + dayCount + '</td>'
+                    if(month < 10) {
+                        checkString += '0'
+                    }
+                    checkString += String(month) + '-'
+                    if(dayCount < 10) {
+                        checkString += '0'
+                    }
+                    checkString += String(dayCount)
+                    calendarHtml += '<td>' + dayCount  + '</td>'
+                    for(i=0; i<schedule.length; i++) {
+                        if (schedule[i][0] === checkString) {
+                            console.log("afjowejfgowgjo")
+                            calendarHtml +=  '<td>' + schedule[i][2] + '</td>'
+                        }
+                    }
                     dayCount++
                 }
+                console.log(checkString)
             }
             calendarHtml += '</tr>'
         }
